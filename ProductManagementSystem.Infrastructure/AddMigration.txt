@@ -1,0 +1,12 @@
+﻿cd ProductManagementSystem.Server
+dotnet ef --project ../ProductManagementSystem.Infrastructure --startup-project ./ migrations add "migration" --context ApplicationDbContext
+
+//update
+
+dotnet ef --project ../ProductManagementSystem.Infrastructure  --startup-project ./ add "updatedIdentityUser" --context ApplicationDbContext
+
+dotnet ef --project ../EmployeeCrud.Data --startup-project ./ database update --context DataContext
+
+
+-- Rollback 
+dotnet ef --project ../ProductManagementSystem.Infrastructure  --startup-project ./ database update 0  --context ApplicationDbContext 
