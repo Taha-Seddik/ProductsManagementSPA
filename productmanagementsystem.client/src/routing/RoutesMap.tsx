@@ -5,26 +5,26 @@ export const RoutesMap = {
   home: {
     path: `/private/adminHome`,
   },
-  employees: {
-    path: `/private/employees`,
+  products: {
+    path: `/private/products`,
   },
-  createEmployee: {
-    path: `/private/employees/create`,
+  createProduct: {
+    path: `/private/products/create`,
   },
-  editEmployee: {
-    path: `/private/employees/:employeeId/edit`,
+  editProduct: {
+    path: `/private/products/:productId/edit`,
   },
-  vacations: {
-    path: `/private/vacations`,
+  categories: {
+    path: `/private/categories`,
   },
-  createVacation: {
-    path: `/private/vacations/create`,
+  createCategory: {
+    path: `/private/categories/create`,
   },
-  editVacation: {
-    path: `/private/vacations/:id/edit`,
+  editCategory: {
+    path: `/private/categories/:id/edit`,
   },
 };
 
-export const makeEditEmployeeRoute = (empId: number) => {
-  return `/private/employees/${empId}/edit`;
+export const makeEditProductRoute = (empId: number) => {
+  return `/private/products/${empId}/edit`;
 };

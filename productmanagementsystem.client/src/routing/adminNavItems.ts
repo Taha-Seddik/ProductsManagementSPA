@@ -1,29 +1,29 @@
-import { ISideNavItem } from '../models/sideNavTypes';
-import { RoutesMap } from './RoutesMap';
+import { ISideNavItem } from "../models/sideNavTypes";
+import { RoutesMap } from "./RoutesMap";
 
 export const adminSideNavItems: { [key: string]: ISideNavItem } = {
   Dashboard: {
     index: 0,
-    label: 'Dashboard',
+    label: "Dashboard",
     open: false,
-    icon: 'dashboard',
+    icon: "dashboard",
     route: RoutesMap.home.path,
     items: [],
   },
-  Employees: {
+  Products: {
     index: 0,
-    label: 'Employees',
+    label: "Products",
     open: false,
-    icon: 'people',
-    route: RoutesMap.employees.path,
+    icon: "scatter_plot",
+    route: RoutesMap.products.path,
     items: [],
   },
-  Vacations: {
+  Categories: {
     index: 0,
-    label: 'Vacations',
+    label: "Categories",
     open: false,
-    icon: 'beach_access',
-    route: RoutesMap.vacations.path,
+    icon: "category",
+    route: RoutesMap.categories.path,
     items: [],
   },
 };

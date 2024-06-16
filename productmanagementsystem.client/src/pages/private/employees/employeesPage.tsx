@@ -1,25 +1,31 @@
-import { ListingUpperBar } from '../../../components/common/ListingUpperBar';
-import { useEmployeesData } from '../../../components/employeesList/useEmployeesData';
-import { usePrepareEmployeesTableColumns } from '../../../components/employeesList/useTableConfig';
-import { RoutesMap } from '../../../routing/RoutesMap';
-import Box from '@mui/material/Box';
-import { IEmployee } from '../../../models/entities/employee';
-import ConfirmDialog from '../../../components/common/confirmDialog';
-import { DataGrid } from '@mui/x-data-grid/DataGrid';
-import { useState } from 'react';
-import { PageContentContainer } from '../../../styles/base.styles';
-import { deleteEmployee } from '../../../services/employees.service';
-import { Notify } from '../../../services/toast.service';
+import { ListingUpperBar } from "../../../components/common/ListingUpperBar";
+import { useEmployeesData } from "../../../components/employeesList/useEmployeesData";
+import { usePrepareEmployeesTableColumns } from "../../../components/employeesList/useTableConfig";
+import { RoutesMap } from "../../../routing/RoutesMap";
+import Box from "@mui/material/Box";
+import { IEmployee } from "../../../models/entities/employee";
+import ConfirmDialog from "../../../components/common/confirmDialog";
+import { DataGrid } from "@mui/x-data-grid/DataGrid";
+import { useState } from "react";
+import { PageContentContainer } from "../../../styles/base.styles";
+import { deleteEmployee } from "../../../services/employees.service";
+import { Notify } from "../../../services/toast.service";
 
 const EmployeesPage: React.FC<{}> = () => {
-  const { searchText, employeesToShow, fetchRows, handleNewSearch, clearSearchTxt } = useEmployeesData();
+  const {
+    searchText,
+    employeesToShow,
+    fetchRows,
+    handleNewSearch,
+    clearSearchTxt,
+  } = useEmployeesData();
   return (
-    <PageContentContainer className='fullySizedFlexColumn' elevation={3}>
+    <PageContentContainer className="fullySizedFlexColumn" elevation={3}>
       <ListingUpperBar
-        title='Employees'
-        topic='Employee'
-        searchPlaceholder='Search by firstName lastName or jobTitle'
-        toPath={RoutesMap.createEmployee.path}
+        title="Employees"
+        topic="Employee"
+        searchPlaceholder="Search by firstName lastName or jobTitle"
+        toPath={RoutesMap.createProduct.path}
         searchText={searchText}
         handleNewSearch={handleNewSearch}
         clearSearchTxt={clearSearchTxt}
@@ -47,20 +53,22 @@ const EmployeesTable: React.FC<ITableProps> = ({ employees, fetchRows }) => {
     if (!chosenEmployeeId) return;
     try {
       await deleteEmployee(Number(chosenEmployeeId));
-      Notify('Produit supprimé avec succés', 'SUCCESS');
+      Notify("Produit supprimé avec succés", "SUCCESS");
       fetchRows();
     } catch (err: any) {
       const errorInfo = err?.response?.data?.errors?.[0].Message;
-      Notify(errorInfo, 'Error');
+      Notify(errorInfo, "Error");
     }
   };
 
   return (
-    <Box display='flex' flexDirection='column' className='fullHW'>
+    <Box display="flex" flexDirection="column" className="fullHW">
       <DataGrid
         columns={columns}
         rows={employees}
-        onRowSelectionModelChange={(rows) => setSelectedRowIds(rows as string[])}
+        onRowSelectionModelChange={(rows) =>
+          setSelectedRowIds(rows as string[])
+        }
         rowSelectionModel={selectedRowsIds}
         slotProps={{
           toolbar: {
@@ -71,7 +79,7 @@ const EmployeesTable: React.FC<ITableProps> = ({ employees, fetchRows }) => {
       />
       <ConfirmDialog
         open={openConfirm}
-        title='Sure you wanna delete this employee ?'
+        title="Sure you wanna delete this employee ?"
         onConfirm={() => confirmDeleteProduct()}
         setOpen={setOpenConfirm}
       />

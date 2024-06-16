@@ -1,8 +1,8 @@
-@import '@fontsource-variable/inter/slnt.css';
-@import 'material-icons/iconfont/filled.css';
-@import './utilities/_flexUtils.css';
-@import './utilities/_dataGrid.css';
-@import 'react-toastify/dist/ReactToastify.css';
+@import "@fontsource-variable/inter/slnt.css";
+@import "material-icons/iconfont/material-icons.css";
+@import "./utilities/_flexUtils.css";
+@import "./utilities/_dataGrid.css";
+@import "react-toastify/dist/ReactToastify.css";
 
 body {
   margin: 0;
