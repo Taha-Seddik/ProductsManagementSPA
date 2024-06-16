@@ -1,4 +1,5 @@
-﻿using ProductManagementSystem.Application.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductManagementSystem.Application.Common.Interfaces;
 using ProductManagementSystem.Domain.Entities;
 using ProductManagementSystem.Infrastructure.Context;
 
@@ -8,6 +9,11 @@ public class CategoriesRepository : GenericRepository<Category>, ICategoriesRepo
 {
     public CategoriesRepository(ApplicationDbContext context) : base(context)
     {
+    }
+
+    public async Task<IEnumerable<Category>> ListAllFilled(CancellationToken cancellationToken)
+    {
+        return await _context.Categories.AsNoTracking().Include(x => x.Products).ToListAsync();
     }
 
 }

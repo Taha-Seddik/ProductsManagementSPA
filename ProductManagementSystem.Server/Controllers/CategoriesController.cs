@@ -32,6 +32,13 @@ public class CategoriesController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("categoriesFilled")]
+    public async Task<IActionResult> GetCategoriesWithProducts()
+    {
+        var response = await _mediator.Send(new ListCategoriesFilledQuery());
+        return Ok(response);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateCategory(CreateCategoryCommand payload)
     {

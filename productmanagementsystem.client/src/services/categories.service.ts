@@ -11,6 +11,11 @@ export const getAllCategories = (): Promise<AxiosResponse<{ categories: ICategor
   return axios.get(url, { headers: headers });
 };
 
+export const getCategoriesFilled = (): Promise<AxiosResponse<{ categories: ICategoryDTO[] }>> => {
+  const url = `${apiUrl}/CategoriesFilled`;
+  return axios.get(url, { headers: headers });
+};
+
 export const getCategoryById = (cId: string): Promise<AxiosResponse<{ category: ICategoryDTO }>> => {
   const url = `${apiUrl}/${cId}`;
   return axios.get(url, { headers: headers });

@@ -31,7 +31,7 @@ export const makeEditRoute = (id: string, editOn: 'ProductPage' | 'CategoryPage'
       return makeEditCategoryRoute(id);
     }
     case 'ProductPage': {
-      return makeEditCategoryRoute(id);
+      return makeEditProductRoute(id);
     }
   }
 };

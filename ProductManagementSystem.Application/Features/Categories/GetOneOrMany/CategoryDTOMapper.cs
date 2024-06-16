@@ -8,5 +8,7 @@ public class CategoryDTOMapper : Profile
     public CategoryDTOMapper()
     {
         CreateMap<Category, CategoryDTO>();
+        CreateMap<Category, CategoryFilledDTO>();
+        CreateMap<Product, CategoryProductDTO>();
     }
 }
