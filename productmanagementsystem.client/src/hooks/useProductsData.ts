@@ -36,23 +36,23 @@ export const useFetchProductsListingNeededData = () => {
 
 export const useProductsData = () => {
   const [searchText, setSearchTxt] = useState<string>('');
-  const [chosenCategoriesIds, setChosenCategoriesIds] = useState<string[]>([]);
+  const [chosenCategoryId, setChosenCategoryId] = useState<string>('');
   const { products, categories, fetchRows } = useFetchProductsListingNeededData();
   const [productsToShow, setProductsToShow] = useState<IProductDTO[]>([]);
   const categoriesOptions = useMemo(() => {
-    return categories?.map((x) => ({ id: x.id, label: x.nameEn }));
-  }, []);
+    const rawCategs = categories?.map((x) => ({ id: x.id, label: x.nameEn }));
+    rawCategs?.unshift({ id: '', label: 'All' });
+    return rawCategs;
+  }, [categories]);
 
   useEffect(() => {
     setSearchTxt('');
-    setChosenCategoriesIds([]);
+    setChosenCategoryId('');
     setProductsToShow(products);
   }, [products]);
 
   const handleProcessSearching = (newVal: string) => {
-    const productsToProcess = chosenCategoriesIds.length
-      ? products.filter((p) => chosenCategoriesIds.includes(p.category.id))
-      : products;
+    const productsToProcess = chosenCategoryId ? products.filter((p) => p.category.id === chosenCategoryId) : products;
     const searchResult = makeTextSearch(productsToProcess, newVal, ['name', 'isbn']);
     const newOnesForDispaly = searchResult!.items;
     setProductsToShow(newOnesForDispaly);
@@ -71,18 +71,32 @@ export const useProductsData = () => {
     debouncedDoSearch('');
   };
 
-  const handleFilterByCategory = () => {};
+  const doFilterByCategory = (newCategId: string) => {
+    if (newCategId !== '') {
+      setChosenCategoryId(newCategId);
+      const productsToProcess = newCategId ? products.filter((p) => p.category.id === newCategId) : products;
+      const searchResult = makeTextSearch(productsToProcess, searchText, ['name', 'isbn']);
+      const newOnesForDispaly = searchResult!.items;
+      setProductsToShow(newOnesForDispaly);
+    } else {
+      setChosenCategoryId('');
+      const searchResult = makeTextSearch(products, searchText, ['name', 'isbn']);
+      const newOnesForDispaly = searchResult!.items;
+      setProductsToShow(newOnesForDispaly);
+    }
+  };
 
   return {
-    employeesToShow: productsToShow,
+    productsToShow,
     searchText,
-    chosenCategoriesIds,
+    chosenCategoryId,
     categories,
     categoriesOptions,
     fetchRows,
     handleNewSearch,
     clearSearchTxt,
-    setChosenCategoriesIds,
+    setChosenCategoryId,
+    doFilterByCategory,
   };
 };
 
