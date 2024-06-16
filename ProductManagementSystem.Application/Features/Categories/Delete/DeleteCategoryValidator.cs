@@ -12,12 +12,12 @@ public class DeleteCategoryValidator : AbstractValidator<DeleteCategoryCommand>
         _categorysRepo = categorysRepo;
 
         RuleFor(v => v.CategoryId)
-            .NotNull().WithMessage("CategoryId is required.")
+            .NotEmpty().WithMessage("CategoryId is required.")
             .MustAsync(CategoryShouldExists).WithMessage("The specified Category Id should exists.");
     }
 
-    public async Task<bool> CategoryShouldExists(int empId, CancellationToken cancellationToken)
+    public async Task<bool> CategoryShouldExists(string categId, CancellationToken cancellationToken)
     {
-        return await _categorysRepo.GetByIdAsync(empId, cancellationToken) != null;
+        return await _categorysRepo.GetByIdAsync(categId, cancellationToken) != null;
     }
 }

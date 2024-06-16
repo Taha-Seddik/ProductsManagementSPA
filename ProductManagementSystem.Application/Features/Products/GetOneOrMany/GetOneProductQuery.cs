@@ -11,7 +11,7 @@ public class GetOneProductQueryResponse
 
 public class GetOneProductQuery : IRequest<GetOneProductQueryResponse>
 {
-    public int ProductId { get; set; }
+    public string ProductId { get; set; }
 }
 
 public class GetOneProductQueryHandler : IRequestHandler<GetOneProductQuery, GetOneProductQueryResponse>
@@ -27,7 +27,7 @@ public class GetOneProductQueryHandler : IRequestHandler<GetOneProductQuery, Get
 
     public async Task<GetOneProductQueryResponse> Handle(GetOneProductQuery request, CancellationToken cancellationToken)
     {
-        var p = await _productsRepo.GetOneWithCategoryFilled(cancellationToken);
+        var p = await _productsRepo.GetOneWithCategoryFilled(request.ProductId, cancellationToken);
         if (p == null)
         {
             throw new InvalidOperationException("Product not found");

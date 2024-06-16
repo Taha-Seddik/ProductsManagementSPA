@@ -5,7 +5,7 @@ namespace ProductManagementSystem.Application.Features.Categories.Delete;
 
 public class DeleteCategoryCommand : IRequest
 {
-    public int CategoryId { get; set; }
+    public string CategoryId { get; set; }
 }
 
 public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>

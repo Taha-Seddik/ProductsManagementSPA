@@ -12,7 +12,7 @@ public class UpdateCategoryValidator : AbstractValidator<UpdateProductCommand>
         _productsRepo = productsRepo;
 
         RuleFor(v => v.ProductId)
-          .NotNull().WithMessage("ProductId is required.")
+          .NotEmpty().WithMessage("ProductId is required.")
           .MustAsync(ProductShouldExists).WithMessage("The specified Product Id should exists.");
 
         RuleFor(model => model.Name)

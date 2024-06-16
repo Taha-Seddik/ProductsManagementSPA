@@ -11,36 +11,32 @@ public class GetOneCategoryQueryResponse
 
 public class GetOneCategoryQuery : IRequest<GetOneCategoryQueryResponse>
 {
-    public int CategoryId { get; set; }
+    public string CategoryId { get; set; }
 }
 
 public class GetOneCategoryQueryHandler : IRequestHandler<GetOneCategoryQuery, GetOneCategoryQueryResponse>
 {
     private readonly IMapper _mapper;
-    private readonly ICategoriesRepository _categorysRepo;
+    private readonly ICategoriesRepository _categoriesRepo;
 
-    public GetOneCategoryQueryHandler(ICategoriesRepository categorysRepo, IMapper mapper)
+    public GetOneCategoryQueryHandler(ICategoriesRepository categoriesRepo, IMapper mapper)
     {
-        _categorysRepo = categorysRepo;
+        _categoriesRepo = categoriesRepo;
         _mapper = mapper;
     }
 
     public async Task<GetOneCategoryQueryResponse> Handle(GetOneCategoryQuery request, CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException("Not implemented");
-        /* var foundEmp = await _categorysRepo.GetOneWithUserFilled(request.CategoryId, cancellationToken);
-         if(foundEmp == null)
-         {
-             throw new InvalidOperationException("Category not found");
-         }
-         var basicDto = _mapper.Map<CategoryDTO>(foundEmp);
-         basicDto.FirstName = foundEmp.User.FirstName;
-         basicDto.LastName = foundEmp.User.LastName;
-         basicDto.Email = foundEmp.User.Email!;
-         return new GetOneCategoryQueryResponse()
-         {
-             Category = basicDto
-         };*/
+        var c = await _categoriesRepo.GetByIdAsync(request.CategoryId, cancellationToken);
+        if (c == null)
+        {
+            throw new InvalidOperationException("Categor not found");
+        }
+        var dto = _mapper.Map<CategoryDTO>(c);
+        return new GetOneCategoryQueryResponse()
+        {
+            Category = dto
+        };
     }
 }
 

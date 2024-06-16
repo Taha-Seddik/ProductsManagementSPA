@@ -1,59 +1,32 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using ProductManagementSystem.Domain.Entities;
 using ProductManagementSystem.Application.Common.Interfaces;
 
 namespace ProductManagementSystem.Application.Features.Categories.Create;
 
-public class CreateCategoryCommand : IRequest<int>
+public class CreateCategoryCommand : IRequest<string>
 {
-    public string Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Password { get; set; }
-    public string JobTitle { get; set; }
-    public DateTimeOffset JoiningDate { get; set; }
+    public string NameEn { get; set; }
+    public string NameAr { get; set; }
 }
 
-public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
+public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, string>
 {
     private readonly IMapper _mapper;
-    private readonly ICategoriesRepository _categorysRepo;
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ICategoriesRepository _categoriesRepo;
 
-    public CreateCategoryCommandHandler(ICategoriesRepository categorysRepo, IMapper mapper, UserManager<ApplicationUser> userManager)
+    public CreateCategoryCommandHandler(ICategoriesRepository categoriesRepo, IMapper mapper)
     {
-        _categorysRepo = categorysRepo;
+        _categoriesRepo = categoriesRepo;
         _mapper = mapper;
-        _userManager = userManager;
     }
 
-    public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException("Not implemented");
-        /*// add user infos
-        var newUser = new ApplicationUser
-        {
-            UserName = request.Email,
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName
-        };
-        var result = await _userManager.CreateAsync(newUser, request.Password);
-        if (!result.Succeeded)
-        {
-            var msg = string.Join(", ", result.Errors.Select(x => x.Description));
-            throw new InvalidOperationException(msg);
-        }
-        await _userManager.AddToRoleAsync(newUser, "User");
-
-        // create category
         var newCategory = _mapper.Map<Category>(request);
-        newCategory.UserId = newUser.Id; // setup userId
-        newCategory = await _categorysRepo.AddAsync(newCategory, cancellationToken);
-
-        return newCategory.Id;*/
+        newCategory = await _categoriesRepo.AddAsync(newCategory, cancellationToken);
+        return newCategory.Id;
     }
 }
 

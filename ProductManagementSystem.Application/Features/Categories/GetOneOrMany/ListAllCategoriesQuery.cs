@@ -6,7 +6,7 @@ namespace ProductManagementSystem.Application.Features.Categories.GetOneOrMany;
 
 public class ListAllCategorysQueryResponse
 {
-    public IEnumerable<CategoryDTO> Categorys { get; set; }
+    public IEnumerable<CategoryDTO> Categories { get; set; }
 }
 
 public class ListAllCategorysQuery : IRequest<ListAllCategorysQueryResponse>
@@ -15,31 +15,22 @@ public class ListAllCategorysQuery : IRequest<ListAllCategorysQueryResponse>
 public class ListAllCategorysQueryHandler : IRequestHandler<ListAllCategorysQuery, ListAllCategorysQueryResponse>
 {
     private readonly IMapper _mapper;
-    private readonly ICategoriesRepository _categorysRepo;
+    private readonly ICategoriesRepository _categoriesRepo;
 
-    public ListAllCategorysQueryHandler(ICategoriesRepository categorysRepo, IMapper mapper)
+    public ListAllCategorysQueryHandler(ICategoriesRepository categoriesRepo, IMapper mapper)
     {
-        _categorysRepo = categorysRepo;
+        _categoriesRepo = categoriesRepo;
         _mapper = mapper;
     }
 
     public async Task<ListAllCategorysQueryResponse> Handle(ListAllCategorysQuery request, CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException("Not implemented");
-        /*var categorys = await _categorysRepo.ListAllWithUserFilled(cancellationToken);
-        var dtos = categorys.Select(x =>
-        {
-            var basicDto = _mapper.Map<CategoryDTO>(x);
-            basicDto.FirstName = x.User.FirstName;
-            basicDto.LastName = x.User.LastName;
-            basicDto.Email = x.User.Email!;
-            return basicDto;
-        }).ToList().AsReadOnly();
-
+        var categs = await _categoriesRepo.ListAllAsync(cancellationToken);
+        var dtos = categs.Select(_mapper.Map<CategoryDTO>).ToList().AsReadOnly();
         return new ListAllCategorysQueryResponse()
         {
-            Categorys = dtos
-        };*/
+            Categories = dtos
+        };
     }
 }
 

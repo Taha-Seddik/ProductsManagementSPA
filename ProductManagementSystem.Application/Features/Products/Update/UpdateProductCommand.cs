@@ -17,36 +17,19 @@ public class UpdateProductCommand : IRequest
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
 {
     private readonly IProductsRepository _productsRepo;
-    private readonly UserManager<ApplicationUser> _userManager;
 
-    public UpdateProductCommandHandler(IProductsRepository productsRepo, UserManager<ApplicationUser> userManager)
+    public UpdateProductCommandHandler(IProductsRepository productsRepo)
     {
         _productsRepo = productsRepo;
-        _userManager = userManager;
     }
 
     public async Task Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        // Update user infos
-        var user = await _userManager.FindByEmailAsync(request.Email);
-        if(user == null)
-        {
-            throw new InvalidOperationException("User not found");
-        }
-        user.FirstName = request.FirstName;
-        user.LastName = request.LastName;
-        var updateUserRes = await _userManager.UpdateAsync(user);
-        if (!updateUserRes.Succeeded)
-        {
-            var msg = string.Join(", ", updateUserRes.Errors.Select(x => x.Description));
-            throw new InvalidOperationException(msg);
-        }
         // Update product infos
         var entity = await _productsRepo.GetByIdAsync(request.ProductId, cancellationToken);
-        if (entity == null) return;
-        /*entity.JobTitle = request.JobTitle;
-        entity.Department = request.Department;
-        entity.JoiningDate = request.JoiningDate;*/
+        if (entity == null) {
+            throw new InvalidOperationException("Product not found");
+        }
         await _productsRepo.UpdateAsync(entity, cancellationToken);
     }
 }
