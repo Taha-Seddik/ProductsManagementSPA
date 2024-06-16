@@ -45,7 +45,7 @@ export const LoginForm: React.FC<{}> = () => {
     <LoginFormContainer>
       <form onSubmit={handleSubmit}>
         <Typography variant='h5' fontWeight={300}>
-          Welcome to Vacation Tracker
+          Welcome to Products Management System
         </Typography>
         <Typography variant='h4' fontWeight={600}>
           Sign In
