@@ -1,4 +1,4 @@
-import { ICategoryDTO } from "./category";
+import { ICategoryDTO } from './category';
 
 export interface IProductDTO {
   id: string;
@@ -10,6 +10,24 @@ export interface IProductDTO {
   category: ICategoryDTO;
 }
 
-export interface CreateProductRequest {}
+export interface CreateOrUpdateProductFormData {
+  name: string;
+  price: string;
+  ISBN: string;
+  categoryId: string;
+}
 
-export interface UpdateProductRequest {}
+export interface CreateProductRequest {
+  name: string;
+  price: number;
+  iSBN: string;
+  categoryId: string;
+}
+
+export interface UpdateProductRequest {
+  id: string;
+  name: string;
+  price: number;
+  iSBN: string;
+  categoryId: string;
+}

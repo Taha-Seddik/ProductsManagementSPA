@@ -12,7 +12,7 @@ export const RoutesMap = {
     path: `/private/products/create`,
   },
   editProduct: {
-    path: `/private/products/:productId/edit`,
+    path: `/private/products/edit/:productId`,
   },
   categories: {
     path: `/private/categories`,
@@ -21,10 +21,10 @@ export const RoutesMap = {
     path: `/private/categories/create`,
   },
   editCategory: {
-    path: `/private/categories/:id/edit`,
+    path: `/private/categories/edit/:id`,
   },
 };
 
-export const makeEditProductRoute = (empId: number) => {
-  return `/private/products/${empId}/edit`;
+export const makeEditProductRoute = (pId: number) => {
+  return `/private/products/edit/${pId}`;
 };

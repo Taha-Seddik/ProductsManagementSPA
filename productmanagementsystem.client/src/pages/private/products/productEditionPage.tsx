@@ -1,212 +1,120 @@
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { RoutesMap } from "../../../routing/RoutesMap";
-import { PageContentContainer } from "../../../styles/base.styles";
-import Fab from "@mui/material/Fab";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import { useEffect, useMemo } from 'react';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { RoutesMap } from '../../../routing/RoutesMap';
+import { PageContentContainer } from '../../../styles/base.styles';
+import Fab from '@mui/material/Fab';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import { FormContainer, SelectElement, TextFieldElement, useForm } from 'react-hook-form-mui';
 import {
-  FormContainer,
-  SelectElement,
-  TextFieldElement,
-  useForm,
-} from "react-hook-form-mui";
-import {
-  CreateOrUpdateEmployeeFormData,
-  Departments,
-  IEmployee,
-} from "../../../models/entities/employee";
-import {
-  departmentOptions,
   getDefaultFormData,
   mapFormDataToCreateRequestData,
   mapFormDataToUpdateRequestData,
-  useFetchNeededDataForUpdate,
-} from "./productEditionUtils";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
-import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
-import {
-  createEmployee,
-  updateEmployee,
-} from "../../../services/products.service";
-import { Notify } from "../../../services/toast.service";
+} from './productEditionUtils';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import { createProduct, updateProduct } from '../../../services/products.service';
+import { Notify } from '../../../services/toast.service';
+import { useFetchNeededDataForUpdate } from '../../../hooks/useProductsData';
+import { CreateOrUpdateProductFormData, IProductDTO } from '../../../models/entities/product';
 
-const topic = "employee";
+const topic = 'product';
 const titleForCreate = () => `Create new ${topic}`;
-const titleForUpdate = (emp: IEmployee | null) =>
-  `Update ${topic} ${emp?.firstName} ${emp?.lastName}`;
+const titleForUpdate = (x: IProductDTO | null) => `Update ${topic} : ${x?.name}`;
 
-const EmployeeEditionPage: React.FC<{}> = () => {
+const ProductEditionPage: React.FC<{}> = () => {
   const navigate = useNavigate();
-  const formDetails = useForm<CreateOrUpdateEmployeeFormData>({
+  const formDetails = useForm<CreateOrUpdateProductFormData>({
     defaultValues: getDefaultFormData(),
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const { employeeId } = useParams();
-  const { foundEmp } = useFetchNeededDataForUpdate();
-  const isCreationMode = !Boolean(employeeId);
+  const { productId } = useParams();
+  const { productObj, categories } = useFetchNeededDataForUpdate();
+  const isCreationMode = !Boolean(productId);
+  const title = useMemo(() => (isCreationMode ? titleForCreate() : titleForUpdate(productObj)), [productObj]);
+  const categoriesOptions = useMemo(() => {
+    if (!categories) return [];
+    return categories.map((x) => ({ id: x.id, label: x.nameEn }));
+  }, [categories]);
 
   // edit mode: set form defaults
   useEffect(() => {
-    if (foundEmp) {
-      const builtData = getDefaultFormData(foundEmp);
+    if (productObj) {
+      const builtData = getDefaultFormData(productObj);
       formDetails.reset(builtData);
     }
-  }, [foundEmp]);
+  }, [productObj]);
 
-  const handleSubmit = async (data: CreateOrUpdateEmployeeFormData) => {
+  const handleSubmit = async (data: CreateOrUpdateProductFormData) => {
     try {
       if (isCreationMode) {
-        await createEmployee(mapFormDataToCreateRequestData(data));
-        Notify("Employee created successfully!", "SUCCESS");
+        await createProduct(mapFormDataToCreateRequestData(data));
+        Notify('Employee created successfully!', 'SUCCESS');
       } else {
-        await updateEmployee(
-          mapFormDataToUpdateRequestData(Number(employeeId), data)
-        );
-        Notify("Employee updated successfully!", "SUCCESS");
+        await updateProduct(mapFormDataToUpdateRequestData(productId!, data));
+        Notify('Employee updated successfully!', 'SUCCESS');
       }
 
       navigate(RoutesMap.products.path);
     } catch (err: any) {
       const errorInfo = err?.response?.data?.errors?.[0]?.Message;
-      Notify(errorInfo, "Error");
+      Notify(errorInfo, 'Error');
     }
   };
 
   return (
-    <PageContentContainer className="fullySizedFlexColumn" elevation={0}>
+    <PageContentContainer className='fullySizedFlexColumn' elevation={0}>
       {/* Navigation side */}
-      <Box className="flexStartCenterRow">
+      <Box className='flexStartCenterRow'>
         <NavLink to={RoutesMap.products.path}>
-          <Fab color="primary" size="small" sx={{ mr: 2 }}>
+          <Fab color='primary' size='small' sx={{ mr: 2 }}>
             <KeyboardReturnIcon />
           </Fab>
         </NavLink>
-        <Typography variant="h6">
-          {isCreationMode ? titleForCreate() : titleForUpdate(foundEmp)}
-        </Typography>
+        <Typography variant='h6'>{title}</Typography>
       </Box>
 
       {/* Form  */}
       <FormContainer
         formContext={formDetails}
         onSuccess={handleSubmit}
-        FormProps={{ className: "flexColumn formStyle" }}
-      >
-        <Divider textAlign="center" sx={{ my: 2 }}>
+        FormProps={{ className: 'flexColumn formStyle' }}>
+        <Divider textAlign='center' sx={{ my: 2 }}>
           Basic details
         </Divider>
-        {/* Email */}
-        {isCreationMode && (
-          <TextFieldElement
-            type="email"
-            name="email"
-            label="Email"
-            required
-            fullWidth
-            margin="normal"
-            autoComplete="employee-email"
-          />
-        )}
-        <Grid container columnSpacing={{ xs: 0, md: 2 }}>
-          {/* Firstname */}
-          <Grid item md={6} xs={12}>
-            <TextFieldElement
-              type="text"
-              name="firstName"
-              label="Firstname"
-              required
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          {/* Lastname */}
-          <Grid item md={6} xs={12}>
-            <TextFieldElement
-              type="text"
-              name="lastName"
-              label="Lastname"
-              required
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-        </Grid>
-        {/* Password */}
-        {isCreationMode && (
-          <TextFieldElement
-            type={showPassword ? "text" : "password"}
-            name="password"
-            label="Password"
-            required
-            fullWidth
-            autoComplete="employee-password"
-            margin="normal"
-            InputProps={{
-              endAdornment: (
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword(!showPassword)}
-                  edge="end"
-                  size="large"
-                >
-                  {showPassword ? (
-                    <VisibilityOffOutlined fontSize="small" />
-                  ) : (
-                    <VisibilityOutlined fontSize="small" />
-                  )}
-                </IconButton>
-              ),
-            }}
-          />
-        )}
-
-        <Divider textAlign="center" sx={{ my: 2 }}>
-          Employement details
-        </Divider>
-        {/* JobTitle */}
-        <TextFieldElement
-          type="text"
-          name="jobTitle"
-          label="Job title"
-          required
-          fullWidth
-          margin="normal"
-        />
-        {/* Department */}
+        {/* Name */}
+        <TextFieldElement type='string' name='name' label='Name' required fullWidth margin='normal' />
+        {/* Price */}
+        <TextFieldElement type='number' name='price' label='Price' required fullWidth margin='normal' />
+        {/* ISBN */}
+        <TextFieldElement type='string' name='iSBN' label='ISBN' required fullWidth margin='normal' />
+        {/* Category  */}
         <SelectElement
-          label="Department"
-          name="department"
-          defaultValue={Departments.Development}
-          options={departmentOptions}
+          label='Category'
+          name='categoryId'
+          options={categoriesOptions}
           required
           fullWidth
-          margin="normal"
+          margin='normal'
         />
-        {/* JoiningDate */}
-        {/* <DatePickerElement
-          name="joiningDate"
-          label="Joining Date"
-          required
-          inputProps={{ margin: "normal" }}
-          slotProps={{ inputAdornment: { position: "start", sx: { pl: 1 } } }}
-        /> */}
-
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ mt: 2 }}
-        >
-          {isCreationMode ? "Create" : "Update"}
+        <Button type='submit' variant='contained' color='primary' sx={{ mt: 2 }}>
+          {isCreationMode ? 'Create' : 'Update'}
         </Button>
       </FormContainer>
     </PageContentContainer>
   );
 };
 
-export default EmployeeEditionPage;
+export default ProductEditionPage;
+
+/* 
+
+ <Grid container columnSpacing={{ xs: 0, md: 2 }}>
+          <Grid item md={6} xs={12}>
+            <TextFieldElement type='text' name='firstName' label='Firstname' required fullWidth margin='normal' />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <TextFieldElement type='text' name='lastName' label='Lastname' required fullWidth margin='normal' />
+          </Grid>
+        </Grid>
+*/

@@ -1,10 +1,10 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import ErrorPage from '../pages/error';
-import AdminHomePage from '../pages/private/adminHomePage';
+import AdminHomePage from '../pages/private/home/adminHomePage';
 import SignInPage from '../pages/auth/signInPage';
 import { RoutesMap } from './RoutesMap';
 import ProductsPage from '../pages/private/products/productsPage';
-import EmployeeEditionPage from '../pages/private/products/productEditionPage';
+import ProductEditionPage from '../pages/private/products/productEditionPage';
 import PrivatePage from '../pages/private/PrivatePage';
 
 export const appRouter = createBrowserRouter([
@@ -27,11 +27,11 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: RoutesMap.createProduct.path,
-        element: <EmployeeEditionPage />,
+        element: <ProductEditionPage />,
       },
       {
         path: RoutesMap.editProduct.path,
-        element: <EmployeeEditionPage />,
+        element: <ProductEditionPage />,
       },
       // {
       //   path: RoutesMap.categories.path,
