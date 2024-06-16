@@ -49,10 +49,10 @@ const ProductEditionPage: React.FC<{}> = () => {
     try {
       if (isCreationMode) {
         await createProduct(mapFormDataToCreateRequestData(data));
-        Notify('Employee created successfully!', 'SUCCESS');
+        Notify('Product created successfully!', 'SUCCESS');
       } else {
         await updateProduct(mapFormDataToUpdateRequestData(productId!, data));
-        Notify('Employee updated successfully!', 'SUCCESS');
+        Notify('Product updated successfully!', 'SUCCESS');
       }
 
       navigate(RoutesMap.products.path);
@@ -106,15 +106,3 @@ const ProductEditionPage: React.FC<{}> = () => {
 };
 
 export default ProductEditionPage;
-
-/* 
-
- <Grid container columnSpacing={{ xs: 0, md: 2 }}>
-          <Grid item md={6} xs={12}>
-            <TextFieldElement type='text' name='firstName' label='Firstname' required fullWidth margin='normal' />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <TextFieldElement type='text' name='lastName' label='Lastname' required fullWidth margin='normal' />
-          </Grid>
-        </Grid>
-*/

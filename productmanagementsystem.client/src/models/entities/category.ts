@@ -18,7 +18,7 @@ export interface CreateCategoryRequest {
 }
 
 export interface UpdateCategoryRequest {
-  id: string;
+  categoryId: string;
   nameEn: string;
   nameAr: string;
 }

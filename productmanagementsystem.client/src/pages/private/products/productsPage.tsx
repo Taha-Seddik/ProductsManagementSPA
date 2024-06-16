@@ -1,6 +1,6 @@
 import { ListingUpperBar } from '../../../components/common/ListingUpperBar';
 import { useProductsData } from '../../../hooks/useProductsData';
-import { usePrepareProductsTableColumns } from '../../../components/productsList/useTableConfig';
+import { usePrepareProductsTableColumns } from '../../../hooks/useTableConfig';
 import { RoutesMap } from '../../../routing/RoutesMap';
 import Box from '@mui/material/Box';
 import ConfirmDialog from '../../../components/common/confirmDialog';

@@ -6,6 +6,8 @@ import { RoutesMap } from './RoutesMap';
 import ProductsPage from '../pages/private/products/productsPage';
 import ProductEditionPage from '../pages/private/products/productEditionPage';
 import PrivatePage from '../pages/private/PrivatePage';
+import CategoriesPage from '../pages/private/categories/categoriesPage';
+import CategoryEditionPage from '../pages/private/categories/categoriesEditionPage';
 
 export const appRouter = createBrowserRouter([
   {
@@ -33,18 +35,18 @@ export const appRouter = createBrowserRouter([
         path: RoutesMap.editProduct.path,
         element: <ProductEditionPage />,
       },
-      // {
-      //   path: RoutesMap.categories.path,
-      //   element: <VacationsPage />,
-      // },
-      // {
-      //   path: RoutesMap.createCategory.path,
-      //   element: <VacationEditionPage />,
-      // },
-      // {
-      //   path: RoutesMap.editCategory.path,
-      //   element: <VacationEditionPage />,
-      // },
+      {
+        path: RoutesMap.categories.path,
+        element: <CategoriesPage />,
+      },
+      {
+        path: RoutesMap.createCategory.path,
+        element: <CategoryEditionPage />,
+      },
+      {
+        path: RoutesMap.editCategory.path,
+        element: <CategoryEditionPage />,
+      },
     ],
   },
   {
