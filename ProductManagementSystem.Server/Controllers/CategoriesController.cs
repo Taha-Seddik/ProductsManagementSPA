@@ -26,7 +26,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet("{categoryId}")]
-    public async Task<IActionResult> GetOneAsync([FromRoute] int categoryId)
+    public async Task<IActionResult> GetOneAsync([FromRoute] string categoryId)
     {
         var response = await _mediator.Send(new GetOneCategoryQuery() { CategoryId = categoryId });
         return Ok(response);
@@ -48,7 +48,7 @@ public class CategoriesController : ControllerBase
 
     [HttpDelete("{categoryId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeleteCategory([FromRoute] int categoryId)
+    public async Task<IActionResult> DeleteCategory([FromRoute] string categoryId)
     {
         var payload = new DeleteCategoryCommand()
         {

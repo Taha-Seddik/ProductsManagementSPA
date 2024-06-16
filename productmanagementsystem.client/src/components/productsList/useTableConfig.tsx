@@ -1,6 +1,7 @@
 import { GridColDef } from '@mui/x-data-grid/models';
 import { useCallback, useEffect, useState } from 'react';
 import { ActionsRendrer } from './renderers/actionsCell';
+import { IProductDTO } from '../../models/entities/product';
 
 export const usePrepareProductsTableColumns = (setOpenConfirm: (status: boolean) => void) => {
   const [columns, setColumns] = useState<GridColDef[]>([]);
@@ -14,7 +15,15 @@ export const usePrepareProductsTableColumns = (setOpenConfirm: (status: boolean)
     const columns: GridColDef[] = [
       { field: 'name', headerName: 'Name', width: 250 },
       { field: 'price', headerName: 'Price', width: 350 },
-      { field: 'isbn', headerName: 'ISBN', width: 450 },
+      { field: 'isbn', headerName: 'ISBN', width: 350 },
+      {
+        field: 'categoryName',
+        valueGetter: (_, row: IProductDTO) => {
+          return row.category.nameEn;
+        },
+        headerName: 'Category',
+        width: 250,
+      },
       {
         field: 'action',
         headerName: 'Actions',

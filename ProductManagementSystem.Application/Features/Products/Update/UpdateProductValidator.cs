@@ -6,10 +6,12 @@ namespace ProductManagementSystem.Application.Features.Products.Update;
 public class UpdateCategoryValidator : AbstractValidator<UpdateProductCommand>
 {
     private readonly IProductsRepository _productsRepo;
+    private readonly ICategoriesRepository _categoriesRepository;
 
-    public UpdateCategoryValidator(IProductsRepository productsRepo)
+    public UpdateCategoryValidator(IProductsRepository productsRepo, ICategoriesRepository categoriesRepository)
     {
         _productsRepo = productsRepo;
+        _categoriesRepository = categoriesRepository;
 
         RuleFor(v => v.ProductId)
           .NotEmpty().WithMessage("ProductId is required.")
@@ -42,6 +44,6 @@ public class UpdateCategoryValidator : AbstractValidator<UpdateProductCommand>
 
     public async Task<bool> CategoryShouldExists(string categoryId, CancellationToken cancellationToken)
     {
-        return await _productsRepo.GetByIdAsync(categoryId, cancellationToken) != null;
+        return await _categoriesRepository.GetByIdAsync(categoryId, cancellationToken) != null;
     }
 }

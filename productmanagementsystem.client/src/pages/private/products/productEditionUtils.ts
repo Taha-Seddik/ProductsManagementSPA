@@ -11,7 +11,7 @@ export const getDefaultFormData = (productObj?: IProductDTO): CreateOrUpdateProd
       name: productObj.name,
       price: productObj.price.toString(),
       isbn: productObj.isbn,
-      categoryId: productObj.categoryId,
+      categoryId: productObj.category.id,
     };
   } else {
     return {
@@ -37,7 +37,7 @@ export const mapFormDataToUpdateRequestData = (
   data: CreateOrUpdateProductFormData,
 ): UpdateProductRequest => {
   return {
-    id: productId,
+    productId: productId,
     name: data.name,
     price: Number(data.price),
     isbn: data.isbn,

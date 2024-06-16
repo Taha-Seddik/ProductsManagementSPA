@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDebounce } from '../utils/useDebounce';
 import { makeTextSearch } from '../utils/filter.utils';
 import { getAllProducts, getProductById } from '../services/products.service';
@@ -9,9 +9,11 @@ import { getAllCategories } from '../services/categories.service';
 
 export const useFetchProductsListingNeededData = () => {
   const [products, setProducts] = useState<IProductDTO[]>([]);
+  const [categories, setCategories] = useState<ICategoryDTO[] | null>(null);
 
   useEffect(() => {
     fetchRows();
+    fetchCategories();
   }, []);
 
   const fetchRows = async () => {
@@ -19,24 +21,39 @@ export const useFetchProductsListingNeededData = () => {
     setProducts(res.data.products);
   };
 
+  const fetchCategories = async () => {
+    const res = await getAllCategories();
+    setCategories(res.data.categories);
+  };
+
   return {
     products,
+    categories,
     fetchRows,
+    fetchCategories,
   };
 };
 
 export const useProductsData = () => {
   const [searchText, setSearchTxt] = useState<string>('');
-  const { products, fetchRows } = useFetchProductsListingNeededData();
+  const [chosenCategoriesIds, setChosenCategoriesIds] = useState<string[]>([]);
+  const { products, categories, fetchRows } = useFetchProductsListingNeededData();
   const [productsToShow, setProductsToShow] = useState<IProductDTO[]>([]);
+  const categoriesOptions = useMemo(() => {
+    return categories?.map((x) => ({ id: x.id, label: x.nameEn }));
+  }, []);
 
   useEffect(() => {
     setSearchTxt('');
+    setChosenCategoriesIds([]);
     setProductsToShow(products);
   }, [products]);
 
   const handleProcessSearching = (newVal: string) => {
-    const searchResult = makeTextSearch(products, newVal, ['name', 'isbn']);
+    const productsToProcess = chosenCategoriesIds.length
+      ? products.filter((p) => chosenCategoriesIds.includes(p.category.id))
+      : products;
+    const searchResult = makeTextSearch(productsToProcess, newVal, ['name', 'isbn']);
     const newOnesForDispaly = searchResult!.items;
     setProductsToShow(newOnesForDispaly);
   };
@@ -54,12 +71,18 @@ export const useProductsData = () => {
     debouncedDoSearch('');
   };
 
+  const handleFilterByCategory = () => {};
+
   return {
     employeesToShow: productsToShow,
     searchText,
+    chosenCategoriesIds,
+    categories,
+    categoriesOptions,
     fetchRows,
     handleNewSearch,
     clearSearchTxt,
+    setChosenCategoriesIds,
   };
 };
 
@@ -71,18 +94,18 @@ export const useFetchNeededDataForUpdate = () => {
   useEffect(() => {
     if (productId) {
       fetchProduct();
-      fetchCategories();
     }
+    fetchCategories();
   }, [productId]);
 
   const fetchProduct = async () => {
     const res = await getProductById(productId!);
-    setProductObj(res.data);
+    setProductObj(res.data.product);
   };
 
   const fetchCategories = async () => {
     const res = await getAllCategories();
-    setCategories(res.data);
+    setCategories(res.data.categories);
   };
 
   return {

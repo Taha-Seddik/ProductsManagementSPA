@@ -29,6 +29,8 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         {
             throw new InvalidOperationException("Category not found");
         }
+        entity.NameEn = request.NameEn;
+        entity.NameAr = request.NameAr;
         await _categoriesRepo.UpdateAsync(entity, cancellationToken);
     }
 }

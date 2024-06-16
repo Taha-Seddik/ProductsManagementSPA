@@ -10,9 +10,57 @@ import { PageContentContainer } from '../../../styles/base.styles';
 import { deleteProduct } from '../../../services/products.service';
 import { Notify } from '../../../services/toast.service';
 import { IProductDTO } from '../../../models/entities/product';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  Theme,
+  useTheme,
+} from '@mui/material';
+
+function getStyles(x: string, selectedIds: string[], theme: Theme) {
+  return {
+    fontWeight: selectedIds.indexOf(x) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+  };
+}
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const ProductsPage: React.FC<{}> = () => {
-  const { searchText, employeesToShow, fetchRows, handleNewSearch, clearSearchTxt } = useProductsData();
+  const theme = useTheme();
+  const {
+    searchText,
+    employeesToShow,
+    chosenCategoriesIds,
+    setChosenCategoriesIds,
+    categoriesOptions,
+    fetchRows,
+    handleNewSearch,
+    clearSearchTxt,
+  } = useProductsData();
+
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    const {
+      target: { value },
+    } = event;
+    setChosenCategoriesIds(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+
   return (
     <PageContentContainer className='fullySizedFlexColumn' elevation={3}>
       <ListingUpperBar
@@ -23,6 +71,27 @@ const ProductsPage: React.FC<{}> = () => {
         searchText={searchText}
         handleNewSearch={handleNewSearch}
         clearSearchTxt={clearSearchTxt}
+        additionalFields={() => (
+          <Box ml={2} width={350}>
+            <FormControl fullWidth size='small'>
+              <InputLabel id='demo-multiple-name-label'>Category</InputLabel>
+              <Select
+                labelId='demo-multiple-name-label'
+                id='filterByCategories'
+                multiple
+                value={chosenCategoriesIds as any}
+                onChange={handleChange}
+                input={<OutlinedInput label='Name' />}
+                MenuProps={MenuProps}>
+                {categoriesOptions?.map((x) => (
+                  <MenuItem key={x.id} value={x.id} style={getStyles(x.id, chosenCategoriesIds, theme)}>
+                    {x.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        )}
       />
       <Box flexGrow={1} mt={2}>
         <ProductsTable products={employeesToShow} fetchRows={fetchRows} />

@@ -28,6 +28,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     {
         // map request to product entity
         var newProduct = _mapper.Map<Product>(request);
+        newProduct.Id = Guid.NewGuid().ToString();
         newProduct = await _productsRepo.AddAsync(newProduct, cancellationToken);
         return newProduct.Id;
     }

@@ -30,6 +30,10 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
         if (entity == null) {
             throw new InvalidOperationException("Product not found");
         }
+        entity.Name = request.Name;
+        entity.Price = request.Price;
+        entity.ISBN = request.ISBN;
+        entity.CategoryId = request.CategoryId;
         await _productsRepo.UpdateAsync(entity, cancellationToken);
     }
 }

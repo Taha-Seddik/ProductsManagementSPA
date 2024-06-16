@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useIsSm } from '../../utils/responsive.utils';
 import Tooltip from '@mui/material/Tooltip';
+import { ReactElement } from 'react';
 
 const Container = styled('div')(() => ({}));
 
@@ -19,10 +20,11 @@ type IProps = {
   searchPlaceholder?: string;
   handleNewSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   clearSearchTxt: () => void;
+  additionalFields?: () => ReactElement;
 };
 
 export const ListingUpperBar: React.FC<IProps> = (props) => {
-  const { title, searchText, toPath, topic, handleNewSearch, clearSearchTxt } = props;
+  const { title, searchText, toPath, topic, handleNewSearch, clearSearchTxt, additionalFields } = props;
   const isBelowMd = useIsSm();
 
   return (
@@ -54,6 +56,7 @@ export const ListingUpperBar: React.FC<IProps> = (props) => {
           ),
         }}
       />
+      {additionalFields ? additionalFields() : null}
       <span className='takeTheRest' />
       {/* create btn */}
       <Link to={toPath}>

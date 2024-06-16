@@ -11,7 +11,7 @@ export const getAllProducts = (): Promise<AxiosResponse<{ products: IProductDTO[
   return axios.get(url, { headers: headers });
 };
 
-export const getProductById = (pId: string): Promise<AxiosResponse<IProductDTO>> => {
+export const getProductById = (pId: string): Promise<AxiosResponse<{ product: IProductDTO }>> => {
   const url = `${apiUrl}/${pId}`;
   return axios.get(url, { headers: headers });
 };

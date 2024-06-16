@@ -6,7 +6,7 @@ const headers: AxiosRequestConfig['headers'] = {
   'Content-Type': 'application/json; charset=UTF-8',
 };
 
-export const getAllCategories = (): Promise<AxiosResponse<ICategoryDTO[]>> => {
+export const getAllCategories = (): Promise<AxiosResponse<{ categories: ICategoryDTO[] }>> => {
   const url = `${apiUrl}`;
   return axios.get(url, { headers: headers });
 };

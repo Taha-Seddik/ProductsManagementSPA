@@ -26,7 +26,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{productId}")]
-    public async Task<IActionResult> GetOneAsync([FromRoute] int productId)
+    public async Task<IActionResult> GetOneAsync([FromRoute] string productId)
     {
         var response = await _mediator.Send(new GetOneProductQuery() { ProductId = productId });
         return Ok(response);
@@ -48,7 +48,7 @@ public class ProductsController : ControllerBase
 
     [HttpDelete("{productId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeleteProduct([FromRoute] int productId)
+    public async Task<IActionResult> DeleteProduct([FromRoute] string productId)
     {
         var payload = new DeleteProductCommand()
         {
