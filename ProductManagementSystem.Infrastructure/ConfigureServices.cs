@@ -19,10 +19,12 @@ public static class ConfigureServices
         services.AddScoped<IProductsRepository, ProductsRepository>();
         services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 
+        var zut = configuration.GetConnectionString("SQLDatabase");
+
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseMySql(configuration.GetConnectionString("SQLDatabase"),
-            new MySqlServerVersion(new Version(8, 0, 21)))
-        );
+        {
+            options.UseSqlServer(configuration.GetConnectionString("SQLDatabase"));
+        });
 
         ConfigureIdentity(services);
 

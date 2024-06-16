@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagementSystem.Server", "ProductManagementSystem.Server\ProductManagementSystem.Server.csproj", "{FEA8222C-9046-421A-9815-7FACB18455F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagementSystem.Server", "ProductManagementSystem.Server\ProductManagementSystem.Server.csproj", "{FEA8222C-9046-421A-9815-7FACB18455F1}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "productmanagementsystem.client", "productmanagementsystem.client\productmanagementsystem.client.esproj", "{5B3D105C-B24A-4642-806F-D2B64ECB2D5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagementSystem.Application", "ProductManagementSystem.Application\ProductManagementSystem.Application.csproj", "{D4342A1B-5808-4335-B29E-82AC1DEB8697}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagementSystem.Application", "ProductManagementSystem.Application\ProductManagementSystem.Application.csproj", "{D4342A1B-5808-4335-B29E-82AC1DEB8697}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagementSystem.Domain", "ProductManagementSystem.Domain\ProductManagementSystem.Domain.csproj", "{2F5FAE31-D738-4A63-9C5C-FDA2B0A85389}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagementSystem.Domain", "ProductManagementSystem.Domain\ProductManagementSystem.Domain.csproj", "{2F5FAE31-D738-4A63-9C5C-FDA2B0A85389}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagementSystem.Infrastructure", "ProductManagementSystem.Infrastructure\ProductManagementSystem.Infrastructure.csproj", "{5ED44EA0-0091-499F-9F90-05E8F655AFE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagementSystem.Infrastructure", "ProductManagementSystem.Infrastructure\ProductManagementSystem.Infrastructure.csproj", "{5ED44EA0-0091-499F-9F90-05E8F655AFE0}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{14CB2BA2-8A5F-483F-A671-2E159AB0A1D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{5ED44EA0-0091-499F-9F90-05E8F655AFE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ED44EA0-0091-499F-9F90-05E8F655AFE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ED44EA0-0091-499F-9F90-05E8F655AFE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14CB2BA2-8A5F-483F-A671-2E159AB0A1D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CB2BA2-8A5F-483F-A671-2E159AB0A1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CB2BA2-8A5F-483F-A671-2E159AB0A1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CB2BA2-8A5F-483F-A671-2E159AB0A1D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
