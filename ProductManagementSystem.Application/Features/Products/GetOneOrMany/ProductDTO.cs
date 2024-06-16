@@ -1,13 +1,14 @@
 ﻿
+using ProductManagementSystem.Domain.Entities;
+
 namespace ProductManagementSystem.Application.Features.Products.GetOneOrMany
 {
     public class ProductDTO
     {
-        public int Id { get; set; }
-        public string JobTitle { get; set; }
-        public DateTimeOffset JoiningDate { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public string ISBN { get; set; }
+        public Category Category { get; set; }
     }
 }

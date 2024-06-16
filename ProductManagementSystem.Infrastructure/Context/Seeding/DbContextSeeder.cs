@@ -1,14 +1,16 @@
 ﻿using ProductManagementSystem.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductManagementSystem.Infrastructure.Context.Seeding;
 
-public class IdentityDbContextSeeder: IDbContextSeeder
+public class DbContextSeeder: IDbContextSeeder
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private HashSet<string> CategoriesIds = new HashSet<string>();
 
-    public IdentityDbContextSeeder(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public DbContextSeeder(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -27,6 +29,20 @@ public class IdentityDbContextSeeder: IDbContextSeeder
         if(!dbContext.Categories.Any())
         {
             await SeedCategoriesAsync(dbContext);
+        }
+        if (!dbContext.Products.Any())
+        {
+            // filled during creation of categories
+            if(CategoriesIds.Any())
+            {
+                await SeedProductsAsync(dbContext, CategoriesIds);
+            }
+            else
+            {
+                var currentCategories = await dbContext.Categories.ToListAsync();
+                var categsSet = currentCategories.Select(x => x.Id).ToHashSet();
+                await SeedProductsAsync(dbContext, categsSet);
+            }
         }
     }
 
@@ -168,8 +184,67 @@ public class IdentityDbContextSeeder: IDbContextSeeder
 
         foreach (var x in initalCategories)
         {
+            CategoriesIds.Add(x.Id);
             dbContext.Categories.Add(x);
             await dbContext.SaveChangesAsync();
         }
+    }
+
+    private async Task SeedProductsAsync(ApplicationDbContext dbContext, HashSet<string> categoriesIds)
+    {
+        try
+        {
+            var categsArr = categoriesIds.ToArray();
+            var initialProducts = new List<Product>()
+            {
+                new Product()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "DELL Gaming Laptop",
+                    ISBN = "978-3-16-148410-0",
+                    Price = 3500.99m,
+                    CategoryId = categsArr[0],
+                    UserId = ""
+                },
+                new Product()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "MSI Gaming Laptop",
+                    ISBN = "978-1-56619-909-4",
+                    Price = 4500.99m,
+                    CategoryId = categsArr[0],
+                    UserId = ""
+                },
+                new Product()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Xiomi",
+                    ISBN = "978-0-521-85033-2",
+                    Price = 650,
+                    CategoryId = categsArr[1],
+                    UserId = ""
+                },
+                new Product()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Table",
+                    ISBN = "978-3-16-148910-0",
+                    Price = 750.30m,
+                    CategoryId = categsArr[2],
+                    UserId = ""
+                }
+            };
+            foreach (var x in initialProducts)
+            {
+                dbContext.Products.Add(x);
+
+                await dbContext.SaveChangesAsync();
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using ProductManagementSystem.Application.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductManagementSystem.Application.Common.Interfaces;
 using ProductManagementSystem.Domain.Entities;
 using ProductManagementSystem.Infrastructure.Context;
 
@@ -10,14 +11,20 @@ public class ProductsRepository : GenericRepository<Product>, IProductsRepositor
     {
     }
 
-    /*public async Task<IEnumerable<Product>> ListAllWithUserFilled(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Product>> ListAllWithCategoryFilled(CancellationToken cancellationToken)
     {
-        return await _context.Employees.AsNoTracking().Include(x => x.User).ToListAsync();
+        return await _context.Products.AsNoTracking().Include(x => x.Category).ToListAsync();
     }
 
-    public async Task<Product?> GetOneWithUserFilled(int empId, CancellationToken cancellationToken)
+    public async Task<Product?> GetOneWithCategoryFilled(string pId, CancellationToken cancellationToken)
     {
-        return await _context.Employees.Where(x => x.Id == empId).Include(x => x.User).FirstOrDefaultAsync(cancellationToken);
-    }*/
+        return await _context.Products.Where(x => x.Id == pId).Include(x => x.Category).FirstOrDefaultAsync(cancellationToken);
+    }
 
+    public async Task<bool> ISBNDoesntExists(string newISBN, CancellationToken cancellationToken)
+    {
+        return await _context.Products.AllAsync(x => x.ISBN != newISBN, cancellationToken);
+    }
+
+    
 }

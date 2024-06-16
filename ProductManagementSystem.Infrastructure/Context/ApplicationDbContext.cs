@@ -27,6 +27,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
              .HasOne(p => p.Category)
              .WithMany(c => c.Products)
              .HasForeignKey(p => p.CategoryId);
+
+        // Configure unique index on ISBN
+        modelBuilder.Entity<Product>()
+            .HasIndex(p => p.ISBN)
+            .IsUnique();
     }
 
 }

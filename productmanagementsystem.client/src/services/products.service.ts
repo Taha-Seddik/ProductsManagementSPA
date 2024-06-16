@@ -6,7 +6,7 @@ const headers: AxiosRequestConfig['headers'] = {
   'Content-Type': 'application/json; charset=UTF-8',
 };
 
-export const getAllProducts = (): Promise<AxiosResponse<IProductDTO[]>> => {
+export const getAllProducts = (): Promise<AxiosResponse<{ products: IProductDTO[] }>> => {
   const url = `${apiUrl}`;
   return axios.get(url, { headers: headers });
 };

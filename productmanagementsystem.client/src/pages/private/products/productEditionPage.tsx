@@ -87,7 +87,7 @@ const ProductEditionPage: React.FC<{}> = () => {
         {/* Price */}
         <TextFieldElement type='number' name='price' label='Price' required fullWidth margin='normal' />
         {/* ISBN */}
-        <TextFieldElement type='string' name='iSBN' label='ISBN' required fullWidth margin='normal' />
+        <TextFieldElement type='string' name='isbn' label='ISBN' required fullWidth margin='normal' />
         {/* Category  */}
         <SelectElement
           label='Category'

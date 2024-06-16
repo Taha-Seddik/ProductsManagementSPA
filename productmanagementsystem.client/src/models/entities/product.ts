@@ -4,7 +4,7 @@ export interface IProductDTO {
   id: string;
   name: string;
   price: number;
-  iSBN: string;
+  isbn: string;
   userId: string;
   categoryId: string;
   category: ICategoryDTO;
@@ -13,14 +13,14 @@ export interface IProductDTO {
 export interface CreateOrUpdateProductFormData {
   name: string;
   price: string;
-  ISBN: string;
+  isbn: string;
   categoryId: string;
 }
 
 export interface CreateProductRequest {
   name: string;
   price: number;
-  iSBN: string;
+  isbn: string;
   categoryId: string;
 }
 
@@ -28,6 +28,6 @@ export interface UpdateProductRequest {
   id: string;
   name: string;
   price: number;
-  iSBN: string;
+  isbn: string;
   categoryId: string;
 }

@@ -16,7 +16,7 @@ export const useFetchProductsListingNeededData = () => {
 
   const fetchRows = async () => {
     const res = await getAllProducts();
-    setProducts(res.data);
+    setProducts(res.data.products);
   };
 
   return {
@@ -36,7 +36,7 @@ export const useProductsData = () => {
   }, [products]);
 
   const handleProcessSearching = (newVal: string) => {
-    const searchResult = makeTextSearch(products, newVal, ['name', 'iSBN']);
+    const searchResult = makeTextSearch(products, newVal, ['name', 'isbn']);
     const newOnesForDispaly = searchResult!.items;
     setProductsToShow(newOnesForDispaly);
   };

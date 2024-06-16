@@ -1,49 +1,44 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using ProductManagementSystem.Application.Common.Interfaces;
 using ProductManagementSystem.Domain.Entities;
 
 namespace ProductManagementSystem.Application.Features.Products.Create;
 
-public class CreateChocolateBarCommandValidator : AbstractValidator<CreateProductCommand>
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IProductsRepository _productsRepository;
+    private readonly ICategoriesRepository _categoriesRepository;
 
-    public CreateChocolateBarCommandValidator(UserManager<ApplicationUser> userManager)
+    public CreateProductCommandValidator(IProductsRepository productsRepository, ICategoriesRepository categoriesRepository)
     {
-        _userManager = userManager;
+        _productsRepository = productsRepository;
+        _categoriesRepository = categoriesRepository;
 
-        RuleFor(model => model.Email)
-           .NotEmpty().WithMessage("Email is required.")
-           .MustAsync(BeUniqueEmail).WithMessage("Email Already exists!");
+        RuleFor(model => model.Name)
+           .NotEmpty().WithMessage("Name is required.")
+           .MustAsync(BeUniqueISBN).WithMessage("ISBN should be unique");
 
-        RuleFor(model => model.FirstName)
-           .NotEmpty().WithMessage("FirstName is required.");
+        RuleFor(model => model.Price)
+           .NotEmpty().WithMessage("Price is required.");
 
-        RuleFor(model => model.LastName)
+        RuleFor(model => model.ISBN)
            .NotEmpty().WithMessage("LastName is required.");
 
-        RuleFor(model => model.Password)
-            .NotEmpty().WithMessage("Password is required.")
-            .MinimumLength(8).WithMessage("Password must be at least 8 characters.")
-            .Must(ContainDigit).WithMessage("Password must contain at least one digit.");
+        RuleFor(v => v.CategoryId)
+            .NotNull().WithMessage("Category Id is required.")
+            .MustAsync(CategoryShouldExists).WithMessage("The specified Category should exists.");
 
-        RuleFor(v => v.JobTitle)
-            .NotEmpty().WithMessage("JobTitle is required.")
-            .MaximumLength(80).WithMessage("JobTitle must not exceed 80 characters.");
-
-        RuleFor(v => v.JoiningDate)
-          .NotNull().WithMessage("JoiningDate is required.");
     }
 
-    private bool ContainDigit(string password)
+    public async Task<bool> BeUniqueISBN(string newISBN, CancellationToken token)
     {
-        return password.Any(char.IsDigit);
+       return await _productsRepository.ISBNDoesntExists(newISBN, token);
     }
 
-    public async Task<bool> BeUniqueEmail(string email, CancellationToken token)
+    public async Task<bool> CategoryShouldExists(string categoryId, CancellationToken cancellationToken)
     {
-       var foundUser = await _userManager.FindByEmailAsync(email);
-        return foundUser == null;
+        return await _categoriesRepository.GetByIdAsync(categoryId, cancellationToken) != null;
     }
 
 }

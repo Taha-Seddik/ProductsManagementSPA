@@ -16,8 +16,8 @@ public class DeleteCategoryValidator : AbstractValidator<DeleteProductCommand>
             .MustAsync(ProductShouldExists).WithMessage("The specified Product Id should exists.");
     }
 
-    public async Task<bool> ProductShouldExists(int empId, CancellationToken cancellationToken)
+    public async Task<bool> ProductShouldExists(string pId, CancellationToken cancellationToken)
     {
-        return await _productsRepo.GetByIdAsync(empId, cancellationToken) != null;
+        return await _productsRepo.GetByIdAsync(pId, cancellationToken) != null;
     }
 }

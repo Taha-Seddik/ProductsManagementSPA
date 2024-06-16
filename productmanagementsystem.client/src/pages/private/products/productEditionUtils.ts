@@ -10,14 +10,14 @@ export const getDefaultFormData = (productObj?: IProductDTO): CreateOrUpdateProd
     return {
       name: productObj.name,
       price: productObj.price.toString(),
-      ISBN: productObj.iSBN,
+      isbn: productObj.isbn,
       categoryId: productObj.categoryId,
     };
   } else {
     return {
       name: '',
       price: '',
-      ISBN: '',
+      isbn: '',
       categoryId: '',
     };
   }
@@ -27,7 +27,7 @@ export const mapFormDataToCreateRequestData = (data: CreateOrUpdateProductFormDa
   return {
     name: data.name,
     price: Number(data.price),
-    iSBN: data.ISBN,
+    isbn: data.isbn,
     categoryId: data.categoryId,
   };
 };
@@ -40,7 +40,7 @@ export const mapFormDataToUpdateRequestData = (
     id: productId,
     name: data.name,
     price: Number(data.price),
-    iSBN: data.ISBN,
+    isbn: data.isbn,
     categoryId: data.categoryId,
   };
 };

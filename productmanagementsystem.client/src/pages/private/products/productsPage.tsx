@@ -18,7 +18,7 @@ const ProductsPage: React.FC<{}> = () => {
       <ListingUpperBar
         title='Products'
         topic='Product'
-        searchPlaceholder='Search by firstName lastName or jobTitle'
+        searchPlaceholder='Search by name or ISBN'
         toPath={RoutesMap.createProduct.path}
         searchText={searchText}
         handleNewSearch={handleNewSearch}

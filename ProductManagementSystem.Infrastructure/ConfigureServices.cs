@@ -29,7 +29,7 @@ public static class ConfigureServices
         ConfigureIdentity(services);
 
         // Register IDbContextSeeder
-        services.AddScoped<IDbContextSeeder, IdentityDbContextSeeder>();
+        services.AddScoped<IDbContextSeeder, DbContextSeeder>();
     }
 
     private static void ConfigureIdentity(IServiceCollection services)

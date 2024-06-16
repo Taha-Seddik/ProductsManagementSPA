@@ -5,7 +5,7 @@ namespace ProductManagementSystem.Application.Features.Products.Delete;
 
 public class DeleteProductCommand : IRequest
 {
-    public int ProductId { get; set; }
+    public string ProductId { get; set; }
 }
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>

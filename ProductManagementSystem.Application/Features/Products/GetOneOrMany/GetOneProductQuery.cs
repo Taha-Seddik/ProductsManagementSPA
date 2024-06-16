@@ -27,20 +27,16 @@ public class GetOneProductQueryHandler : IRequestHandler<GetOneProductQuery, Get
 
     public async Task<GetOneProductQueryResponse> Handle(GetOneProductQuery request, CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException("Not implemented");
-        /*var foundEmp = await _productsRepo.GetOneWithUserFilled(request.ProductId, cancellationToken);
-        if(foundEmp == null)
+        var p = await _productsRepo.GetOneWithCategoryFilled(cancellationToken);
+        if (p == null)
         {
             throw new InvalidOperationException("Product not found");
         }
-        var basicDto = _mapper.Map<ProductDTO>(foundEmp);
-        basicDto.FirstName = foundEmp.User.FirstName;
-        basicDto.LastName = foundEmp.User.LastName;
-        basicDto.Email = foundEmp.User.Email!;
+        var dto = _mapper.Map<ProductDTO>(p);
         return new GetOneProductQueryResponse()
         {
-            Product = basicDto
-        };*/
+            Product = dto
+        };
     }
 }
 

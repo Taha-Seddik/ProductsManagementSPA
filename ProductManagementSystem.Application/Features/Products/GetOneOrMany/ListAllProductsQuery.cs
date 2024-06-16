@@ -25,20 +25,12 @@ public class ListAllProductsQueryHandler : IRequestHandler<ListAllProductsQuery,
 
     public async Task<ListAllProductsQueryResponse> Handle(ListAllProductsQuery request, CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException("Not implemented");
-        /*var products = await _productsRepo.ListAllWithUserFilled(cancellationToken);
-        var dtos = products.Select(x =>
-        {
-            var basicDto = _mapper.Map<ProductDTO>(x);
-            basicDto.FirstName = x.User.FirstName;
-            basicDto.LastName = x.User.LastName;
-            basicDto.Email = x.User.Email!;
-            return basicDto;
-        }).ToList().AsReadOnly();
+        var products = await _productsRepo.ListAllWithCategoryFilled(cancellationToken);
+        var dtos = products.Select(_mapper.Map<ProductDTO>).ToList().AsReadOnly();
         return new ListAllProductsQueryResponse()
         {
             Products = dtos
-        };*/
+        };
     }
 }
 
