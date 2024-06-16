@@ -8,7 +8,7 @@ I did configure database container in docker-compose.yml
 
 # Design Patterns
 - CQRS design pattern
-- Mediatordesign pattern
+- Mediator design pattern
 - Repository design pattern
 - Dependency Injection pattern
 
@@ -28,7 +28,7 @@ After starting Docker desktop we could run the Server API in debugg mode
 ![image](https://github.com/Taha-Seddik/ProductsManagementSPA/assets/16271638/c6d49822-4aa4-4e98-bb77-b6f2f96b4597)
 
 2- Frontend:
-The frontend project can be run separatly 
+The frontend project can be run separately 
 > cd ProductManagementSystem\productmanagementsystem.client
 > 
 > npm install
