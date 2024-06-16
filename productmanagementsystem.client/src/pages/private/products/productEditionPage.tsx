@@ -23,7 +23,7 @@ import {
   mapFormDataToCreateRequestData,
   mapFormDataToUpdateRequestData,
   useFetchNeededDataForUpdate,
-} from "./employeeEditionUtils";
+} from "./productEditionUtils";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
@@ -32,7 +32,7 @@ import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
 import {
   createEmployee,
   updateEmployee,
-} from "../../../services/employees.service";
+} from "../../../services/products.service";
 import { Notify } from "../../../services/toast.service";
 
 const topic = "employee";

@@ -1,15 +1,17 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import {
   CreateOrUpdateEmployeeFormData,
   CreateEmployeeRequest,
   Departments,
   IEmployee,
   UpdateEmployeeRequest,
-} from '../../../models/entities/employee';
-import { useEffect, useState } from 'react';
-import { getEmployeeById } from '../../../services/employees.service';
+} from "../../../models/entities/employee";
+import { useEffect, useState } from "react";
+import { getEmployeeById } from "../../../services/products.service";
 
-export const getDefaultFormData = (foundEmp?: IEmployee): CreateOrUpdateEmployeeFormData => {
+export const getDefaultFormData = (
+  foundEmp?: IEmployee
+): CreateOrUpdateEmployeeFormData => {
   if (foundEmp) {
     return {
       email: foundEmp.email,
@@ -21,18 +23,20 @@ export const getDefaultFormData = (foundEmp?: IEmployee): CreateOrUpdateEmployee
     };
   } else {
     return {
-      firstName: '',
-      email: '',
-      lastName: '',
-      password: '',
-      jobTitle: '',
+      firstName: "",
+      email: "",
+      lastName: "",
+      password: "",
+      jobTitle: "",
       department: Departments.Development,
       joiningDate: new Date(),
     };
   }
 };
 
-export const mapFormDataToCreateRequestData = (data: CreateOrUpdateEmployeeFormData): CreateEmployeeRequest => {
+export const mapFormDataToCreateRequestData = (
+  data: CreateOrUpdateEmployeeFormData
+): CreateEmployeeRequest => {
   return {
     email: data.email!,
     firstName: data.firstName,
@@ -46,7 +50,7 @@ export const mapFormDataToCreateRequestData = (data: CreateOrUpdateEmployeeFormD
 
 export const mapFormDataToUpdateRequestData = (
   employeeId: number,
-  data: CreateOrUpdateEmployeeFormData,
+  data: CreateOrUpdateEmployeeFormData
 ): UpdateEmployeeRequest => {
   return {
     employeeId: employeeId,
@@ -60,10 +64,10 @@ export const mapFormDataToUpdateRequestData = (
 };
 
 export const departmentOptions = [
-  { label: 'Development', id: Departments.Development },
-  { label: 'Design', id: Departments.Design },
-  { label: 'Testing', id: Departments.Testing },
-  { label: 'HR', id: Departments.HR },
+  { label: "Development", id: Departments.Development },
+  { label: "Design", id: Departments.Design },
+  { label: "Testing", id: Departments.Testing },
+  { label: "HR", id: Departments.HR },
 ];
 
 export const useFetchNeededDataForUpdate = () => {
